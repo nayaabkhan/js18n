@@ -1,0 +1,5 @@
+{
+  "login": "login",
+  "events": "events",
+  "event": "event/:id?"
+}

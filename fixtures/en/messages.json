@@ -1,0 +1,35 @@
+{
+  "hello": "Hello",
+  "welcome": "Welcome {{user}}!",
+  "taken": "Failed to save as {{username}}. {{username}} is already taken.",
+  "achievement": "{{user}} of team {{team}} drew first blood!",
+
+  "title": {
+    "male": "{{user}} is an expert masseur",
+    "female": "{{user}} is an expert masseuse",
+    "default": "{{user}} is an expert masseuse"
+  },
+
+  "unread": {
+    "zero": "All caught up!",
+    "one": "You have an unread message",
+    "other": "You have {{count}} unread messages"
+  },
+
+  "friends": {
+    "male": {
+      "one": "{{user}} has one boyfriend",
+      "other": "{{user}} has {{count}} boyfriends"
+    },
+    "female": {
+      "zero": "{{user}} has no girlfriends",
+      "one": "{{user}} has one girlfriend",
+      "other": "{{user}} has {{count}} girlfriends"
+    },
+    "default": {
+      "zero": "{{user}} has no friends",
+      "one": "{{user}} has one friend",
+      "other": "{{user}} has {{count}} friends"
+    }
+  }
+}
