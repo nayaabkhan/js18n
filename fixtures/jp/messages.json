@@ -1,0 +1,29 @@
+{
+  "hello": "こんにちは",
+  "welcome": "ようこそ {{user}}!",
+  "taken":
+    "{{username}}として保存できませんでした。 {{username}}は既に行われています。",
+  "achievement": "チーム{{team}}の{{user}}が最初の血を出しました！",
+
+  "title": {
+    "male": "{{user}}は専門のマッサージ師です",
+    "female": "{{user}}は専門のマッサージ器です",
+    "default": "{{user}}は専門のマッサージ師です"
+  },
+
+  "unread": {
+    "other": "未読メッセージが{{count}}あります"
+  },
+
+  "friends": {
+    "male": {
+      "other": "{{user}}はボーイフレンドを{{count}}持っています"
+    },
+    "female": {
+      "other": "{{user}}はガールフレンドを{{count}}持っています"
+    },
+    "default": {
+      "other": "{{user}}は{{count}}の友達を持っています"
+    }
+  }
+}
