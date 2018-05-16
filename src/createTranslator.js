@@ -1,93 +1,127 @@
+import interpolate from './middlewares/interpolate'
+import context from './middlewares/context'
+import pluralise from './middlewares/pluralise'
+
+/**
+ * Creates a new translator that holds all resources and provides way to
+ * translate them.
+ *
+ * @param {string} locale The current locale. This locale will be used for
+ * pluralisation, date formatting and so on.
+ *
+ * @param {object} [preloadedResources] The resources to be loades initially.
+ * These could be initialsed from the server or local storage.
+ *
+ * @param {...function} middlewares The middleware chain to be applied.
+ *
+ * @returns {Translator} An object that lets you translate resources,
+ * add resources, and get all resources.
+ */
 export default function createTranslator(
   locale,
   preloadedResources = {},
-  language
+  middlewares = []
 ) {
-  const replace = String.prototype.replace
+  if (typeof locale !== 'string') {
+    throw new Error('Expected the locale to be a string.')
+  }
 
-  const dollarRegex = /\$/g
-  const dollarBillsYall = '$$'
-  const tokenRegex = /(?:\{\{|%\{)(.*?)(?:\}\}?)/gm
+  if (typeof preloadedResources !== 'object') {
+    throw new Error('Expected the preloaded resources to be an object.')
+  }
 
-  const pluralOptions = ['zero', 'one', 'two', 'few', 'many', 'other']
+  // Order does matter.
+  let currentMiddlewares = [context, pluralise, interpolate].concat(middlewares)
 
-  let currentResources = preloadedResources
+  let currentResources = {}
+  addResources(preloadedResources)
 
+  /**
+   * Gets the locale using which it was initialised.
+   *
+   * @returns {string} The current locale.
+   */
   function getLocale() {
     return locale
   }
 
-  function translate(key, params = {}) {
-    let match = _findPhrase(key)
-
-    if (!match) {
-      if (params.hasOwnProperty('_')) {
-        match = params._
-      } else {
-        return key
-      }
-    }
-
-    while (typeof match !== 'string') {
-      if (
-        pluralOptions.reduce(
-          (acc, option) => acc || match.hasOwnProperty(option),
-          false
-        )
-      ) {
-        match = _resolvePluralisation(match, params.count)
-      } else {
-        match = _resolveContext(match, params)
-      }
-    }
-
-    return _interpolate(match, params)
+  /**
+   * Gets all the resources.
+   *
+   * @returns {object} The current resources.
+   */
+  function getResources() {
+    return currentResources
   }
 
+  /**
+   * Adds new resources.
+   *
+   * @param {object} resources New resources to add.
+   */
   function addResources(resources) {
+    if (typeof resources !== 'object') {
+      throw new Error('Expected the resources to be an object.')
+    }
+
     currentResources = Object.assign({}, currentResources, resources)
   }
 
-  function _findPhrase(key) {
+  /**
+   *
+   * @param {string} key Key to translate.
+   * @param {params} params Additional parameters.
+   *
+   * @returns {string} Tranlation for the given key.
+   */
+  function translate(key, params = {}) {
+    const match = findPhrase(key, currentResources)
+
+    const phrase = currentMiddlewares.reduce((acc, middleware) => {
+      return middleware(acc, key, params, locale)
+    }, match)
+
+    if (typeof phrase === 'string') {
+      return phrase
+    } else if (typeof params.default === 'string') {
+      return interpolate(params.default, params)
+    } else {
+      console.warn(`Missing translation for key: "${key}"`)
+      return key
+    }
+  }
+
+  /**
+   * Find the match using key.
+   *
+   * @param {string} key The key to find.
+   * @param {object} resources Resouces.
+   *
+   * @returns {any} Match of the key from resources.
+   */
+  function findPhrase(key, resources) {
     const keyParts = key.split('.')
 
     return keyParts.reduce((submatch, part) => {
       return submatch[part]
-    }, currentResources)
+    }, resources)
   }
 
-  function _resolveContext(match, params) {
-    if (
-      params.hasOwnProperty('context') &&
-      match.hasOwnProperty(params.context)
-    ) {
-      return match[params.context]
+  function localise(value, options) {
+    if (typeof value === 'number') {
+      return new Intl.NumberFormat(locale, options).format(value)
     }
 
-    return match['default']
-  }
-
-  function _resolvePluralisation(match, count) {
-    return language.pluralise(match, count)
-  }
-
-  function _interpolate(phrase, params = {}) {
-    const matchedPlaceholders = phrase.match(tokenRegex)
-
-    let result = phrase
-    result = replace.call(result, tokenRegex, function(expression, argument) {
-      if (!params.hasOwnProperty(argument) || params[argument] == null) {
-        return expression
-      }
-      return replace.call(params[argument], dollarRegex, dollarBillsYall)
-    })
-
-    return result
+    if (value instanceof Date) {
+      return new Intl.DateTimeFormat(locale, options).format(value)
+    }
   }
 
   return {
     getLocale,
-    translate,
+    getResources,
     addResources,
+    translate,
+    localise,
   }
 }
