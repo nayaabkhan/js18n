@@ -122,6 +122,8 @@ export default function createTranslator(
     getResources,
     addResources,
     translate,
+    t: translate,
     localise,
+    l: localise,
   }
 }
