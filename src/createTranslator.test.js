@@ -53,82 +53,76 @@ describe('createTranslator', () => {
 
   describe('translate()', () => {
     it('should return the key itself if translation is missing', () => {
-      expect(enIN.translate('messages.notfound')).toEqual('messages.notfound')
-      expect(jaJP.translate('messages.notfound')).toEqual('messages.notfound')
+      expect(enIN.t('messages.notfound')).toEqual('messages.notfound')
+      expect(jaJP.t('messages.notfound')).toEqual('messages.notfound')
     })
 
     it('should return the fallback option', () => {
-      expect(enIN.translate('messages.notfound', { default: '404' })).toEqual(
-        '404'
-      )
+      expect(enIN.t('messages.notfound', { default: '404' })).toEqual('404')
     })
 
     it('should translate simple keys', () => {
-      expect(enIN.translate('messages.hello')).toEqual('Hello')
-      expect(enIN.translate('glossary.brand.name')).toEqual('Acme')
-      expect(enIN.translate('glossary.brand.tagline')).toEqual('Just do it!')
+      expect(enIN.t('messages.hello')).toEqual('Hello')
+      expect(enIN.t('glossary.brand.name')).toEqual('Acme')
+      expect(enIN.t('glossary.brand.tagline')).toEqual('Just do it!')
 
-      expect(jaJP.translate('messages.hello')).toEqual('こんにちは')
-      expect(jaJP.translate('glossary.brand.name')).toEqual('Acme')
-      expect(jaJP.translate('glossary.brand.tagline')).toEqual('早くやれよ！')
+      expect(jaJP.t('messages.hello')).toEqual('こんにちは')
+      expect(jaJP.t('glossary.brand.name')).toEqual('Acme')
+      expect(jaJP.t('glossary.brand.tagline')).toEqual('早くやれよ！')
 
-      expect(ru.translate('messages.hello')).toEqual('Здравствуйте')
-      expect(ru.translate('glossary.brand.name')).toEqual('Acme')
-      expect(ru.translate('glossary.brand.tagline')).toEqual(
-        'Просто сделай это!'
-      )
+      expect(ru.t('messages.hello')).toEqual('Здравствуйте')
+      expect(ru.t('glossary.brand.name')).toEqual('Acme')
+      expect(ru.t('glossary.brand.tagline')).toEqual('Просто сделай это!')
     })
 
     describe('interpolation', () => {
       it('should do nothing if no match found', () => {
-        expect(enIN.translate('messages.welcome')).toEqual('Welcome {{user}}!')
-        expect(jaJP.translate('messages.welcome')).toEqual('ようこそ {{user}}!')
-        expect(ru.translate('messages.welcome')).toEqual(
-          'Добро пожаловать {{user}}!'
-        )
+        expect(enIN.t('messages.welcome')).toEqual('Welcome {{user}}!')
+        expect(jaJP.t('messages.welcome')).toEqual('ようこそ {{user}}!')
+        expect(ru.t('messages.welcome')).toEqual('Добро пожаловать {{user}}!')
       })
 
       it('should interpolate if match found', () => {
-        expect(enIN.translate('messages.welcome', { user: 'Khan' })).toEqual(
+        expect(enIN.t('messages.welcome', { user: 'Khan' })).toEqual(
           'Welcome Khan!'
         )
-        expect(jaJP.translate('messages.welcome', { user: 'Khan' })).toEqual(
+        expect(jaJP.t('messages.welcome', { user: 'Khan' })).toEqual(
           'ようこそ Khan!'
         )
-        expect(ru.translate('messages.welcome', { user: 'Khan' })).toEqual(
+        expect(ru.t('messages.welcome', { user: 'Khan' })).toEqual(
           'Добро пожаловать Khan!'
         )
       })
 
       it('should interpolate multiple occurences', () => {
-        expect(enIN.translate('messages.taken', { username: 'Khan' })).toEqual(
+        expect(enIN.t('messages.taken', { username: 'Khan' })).toEqual(
           'Failed to save as Khan. Khan is already taken.'
         )
 
         expect(
-          enIN.translate('messages.achievement', {
+          enIN.t('messages.achievement', {
             user: 'Dragonlord',
             team: 'Global offensive',
           })
         ).toEqual('Dragonlord of team Global offensive drew first blood!')
 
-        expect(jaJP.translate('messages.taken', { username: 'Khan' })).toEqual(
+        expect(jaJP.t('messages.taken', { username: 'Khan' })).toEqual(
           'Khanとして保存できませんでした。 Khanは既に行われています。'
         )
 
         expect(
-          jaJP.translate('messages.achievement', {
+          jaJP.t('messages.achievement', {
             user: 'Dragonlord',
             team: 'Global offensive',
           })
         ).toEqual('チームGlobal offensiveのDragonlordが最初の血を出しました！')
 
-        expect(ru.translate('messages.taken', { username: 'Khan' })).toEqual(
+        expect(ru.t('messages.taken', { username: 'Khan' })).toEqual(
           'Не удалось сохранить как Khan. Khan уже выполнено.'
         )
 
         expect(
-          ru.translate('messages.achievement', {
+          ru.t('messages.achievement', {
             user: 'Dragonlord',
             team: 'Global offensive',
           })
@@ -139,40 +133,40 @@ describe('createTranslator', () => {
     describe('context', () => {
       it('should match context', () => {
         expect(
-          enIN.translate('messages.title', { user: 'John', context: 'male' })
+          enIN.t('messages.title', { user: 'John', context: 'male' })
         ).toEqual('John is an expert masseur')
 
         expect(
-          enIN.translate('messages.title', { user: 'Jenna', context: 'female' })
+          enIN.t('messages.title', { user: 'Jenna', context: 'female' })
         ).toBe('Jenna is an expert masseuse')
 
         expect(
-          jaJP.translate('messages.title', { user: 'John', context: 'male' })
+          jaJP.t('messages.title', { user: 'John', context: 'male' })
         ).toEqual('Johnは専門のマッサージ師です')
 
         expect(
-          jaJP.translate('messages.title', { user: 'Jenna', context: 'female' })
+          jaJP.t('messages.title', { user: 'Jenna', context: 'female' })
         ).toBe('Jennaは専門のマッサージ器です')
 
         expect(
-          ru.translate('messages.title', { user: 'John', context: 'male' })
+          ru.t('messages.title', { user: 'John', context: 'male' })
         ).toEqual('John - эксперт-массажист')
 
         expect(
-          ru.translate('messages.title', { user: 'Jenna', context: 'female' })
+          ru.t('messages.title', { user: 'Jenna', context: 'female' })
         ).toBe('Jenna - экспертная массажистка')
       })
 
       it('should fallback on default context', () => {
-        expect(enIN.translate('messages.title', { user: 'Chandler' })).toBe(
+        expect(enIN.t('messages.title', { user: 'Chandler' })).toBe(
           'Chandler is an expert masseuse'
         )
 
-        expect(jaJP.translate('messages.title', { user: 'Chandler' })).toBe(
+        expect(jaJP.t('messages.title', { user: 'Chandler' })).toBe(
           'Chandlerは専門のマッサージ師です'
         )
 
-        expect(ru.translate('messages.title', { user: 'Chandler' })).toBe(
+        expect(ru.t('messages.title', { user: 'Chandler' })).toBe(
           'Chandler - эксперт-массажист'
         )
       })
@@ -180,36 +174,34 @@ describe('createTranslator', () => {
 
     describe('pluralisation', () => {
       it('should pluralise', () => {
-        expect(enIN.translate('messages.unread', { count: 0 })).toBe(
-          'All caught up!'
-        )
-        expect(enIN.translate('messages.unread', { count: 1 })).toBe(
+        expect(enIN.t('messages.unread', { count: 0 })).toBe('All caught up!')
+        expect(enIN.t('messages.unread', { count: 1 })).toBe(
           'You have an unread message'
         )
-        expect(enIN.translate('messages.unread', { count: 5 })).toBe(
+        expect(enIN.t('messages.unread', { count: 5 })).toBe(
           'You have 5 unread messages'
         )
 
-        expect(jaJP.translate('messages.unread', { count: 0 })).toBe(
+        expect(jaJP.t('messages.unread', { count: 0 })).toBe(
           '未読メッセージが0あります'
         )
-        expect(jaJP.translate('messages.unread', { count: 1 })).toBe(
+        expect(jaJP.t('messages.unread', { count: 1 })).toBe(
           '未読メッセージが1あります'
         )
-        expect(jaJP.translate('messages.unread', { count: 5 })).toBe(
+        expect(jaJP.t('messages.unread', { count: 5 })).toBe(
           '未読メッセージが5あります'
         )
 
-        expect(ru.translate('messages.unread', { count: 1 })).toBe(
+        expect(ru.t('messages.unread', { count: 1 })).toBe(
           'У вас есть 1 непрочитанное сообщение'
         )
-        expect(ru.translate('messages.unread', { count: 2 })).toBe(
+        expect(ru.t('messages.unread', { count: 2 })).toBe(
           'У вас есть 2 непрочитанных сообщения'
         )
-        expect(ru.translate('messages.unread', { count: 5 })).toBe(
+        expect(ru.t('messages.unread', { count: 5 })).toBe(
           'У вас есть 5 непрочитанных сообщений'
         )
-        expect(ru.translate('messages.unread', { count: 3.5 })).toBe(
+        expect(ru.t('messages.unread', { count: 3.5 })).toBe(
           'У вас есть 3.5 непрочитанные сообщения'
         )
       })
@@ -218,58 +210,58 @@ describe('createTranslator', () => {
     describe('context and pluralisation', () => {
       it('should match context and pluralise', () => {
         expect(
-          enIN.translate('messages.friends', {
+          enIN.t('messages.friends', {
             user: 'John',
             count: 0,
             context: 'male',
           })
         ).toBe('John has 0 boyfriends')
         expect(
-          enIN.translate('messages.friends', {
+          enIN.t('messages.friends', {
             user: 'John',
             count: 1,
             context: 'female',
           })
         ).toBe('John has one girlfriend')
-        expect(
-          enIN.translate('messages.friends', { user: 'John', count: 5 })
-        ).toBe('John has 5 friends')
+        expect(enIN.t('messages.friends', { user: 'John', count: 5 })).toBe(
+          'John has 5 friends'
+        )
 
         expect(
-          jaJP.translate('messages.friends', {
+          jaJP.t('messages.friends', {
             user: 'John',
             count: 0,
             context: 'male',
           })
         ).toBe('Johnはボーイフレンドを0持っています')
         expect(
-          jaJP.translate('messages.friends', {
+          jaJP.t('messages.friends', {
             user: 'John',
             count: 1,
             context: 'female',
           })
         ).toBe('Johnはガールフレンドを1持っています')
-        expect(
-          jaJP.translate('messages.friends', { user: 'John', count: 5 })
-        ).toBe('Johnは5の友達を持っています')
+        expect(jaJP.t('messages.friends', { user: 'John', count: 5 })).toBe(
+          'Johnは5の友達を持っています'
+        )
 
         expect(
-          ru.translate('messages.friends', {
+          ru.t('messages.friends', {
             user: 'John',
             count: 0,
             context: 'male',
           })
         ).toBe('John имеет 0 парней')
         expect(
-          ru.translate('messages.friends', {
+          ru.t('messages.friends', {
             user: 'John',
             count: 1,
             context: 'female',
           })
         ).toBe('John имеет 1 подругу')
-        expect(
-          ru.translate('messages.friends', { user: 'John', count: 5 })
-        ).toBe('John имеет 5 друзей')
+        expect(ru.t('messages.friends', { user: 'John', count: 5 })).toBe(
+          'John имеет 5 друзей'
+        )
       })
     })
   })
@@ -278,7 +270,7 @@ describe('createTranslator', () => {
     enIN.addResources({ routes: enRoutes })
 
     it('should have new "routes" catalog', () => {
-      expect(enIN.translate('routes.event', 'event/:id?'))
+      expect(enIN.t('routes.event', 'event/:id?'))
     })
   })
 
@@ -290,59 +282,59 @@ describe('createTranslator', () => {
 
     describe('numbers', () => {
       it('should format integers', () => {
-        expect(enIN.localise(number)).toBe('1,23,45,678')
-        expect(jaJP.localise(number)).toBe('12,345,678')
-        expect(ru.localise(number)).toBe('12 345 678')
+        expect(enIN.l(number)).toBe('1,23,45,678')
+        expect(jaJP.l(number)).toBe('12,345,678')
+        expect(ru.l(number)).toBe('12 345 678')
       })
 
       it('should format whole numbers', () => {
-        expect(enIN.localise(whole)).toBe('1,234.568')
-        expect(jaJP.localise(whole)).toBe('1,234.568')
-        expect(ru.localise(whole)).toBe('1 234,568')
+        expect(enIN.l(whole)).toBe('1,234.568')
+        expect(jaJP.l(whole)).toBe('1,234.568')
+        expect(ru.l(whole)).toBe('1 234,568')
       })
 
       it('should format percentages', () => {
-        expect(enIN.localise(percent, { style: 'percent' })).toBe('55%')
-        expect(jaJP.localise(percent, { style: 'percent' })).toBe('55%')
-        expect(ru.localise(percent, { style: 'percent' })).toBe('55 %')
+        expect(enIN.l(percent, { style: 'percent' })).toBe('55%')
+        expect(jaJP.l(percent, { style: 'percent' })).toBe('55%')
+        expect(ru.l(percent, { style: 'percent' })).toBe('55 %')
       })
 
       it('should format currencies', () => {
-        expect(
-          enIN.localise(currency, { style: 'currency', currency: 'INR' })
-        ).toBe('₹ 23,400.00')
+        expect(enIN.l(currency, { style: 'currency', currency: 'INR' })).toBe(
+          '₹ 23,400.00'
+        )
 
-        expect(
-          enIN.localise(currency, { style: 'currency', currency: 'USD' })
-        ).toBe('US$ 23,400.00')
+        expect(enIN.l(currency, { style: 'currency', currency: 'USD' })).toBe(
+          'US$ 23,400.00'
+        )
 
-        expect(
-          enIN.localise(currency, { style: 'currency', currency: 'EUR' })
-        ).toBe('€ 23,400.00')
+        expect(enIN.l(currency, { style: 'currency', currency: 'EUR' })).toBe(
+          '€ 23,400.00'
+        )
 
-        expect(
-          jaJP.localise(currency, { style: 'currency', currency: 'JPY' })
-        ).toBe('￥23,400')
+        expect(jaJP.l(currency, { style: 'currency', currency: 'JPY' })).toBe(
+          '￥23,400'
+        )
 
-        expect(
-          jaJP.localise(currency, { style: 'currency', currency: 'USD' })
-        ).toBe('$23,400.00')
+        expect(jaJP.l(currency, { style: 'currency', currency: 'USD' })).toBe(
+          '$23,400.00'
+        )
 
-        expect(
-          jaJP.localise(currency, { style: 'currency', currency: 'EUR' })
-        ).toBe('€23,400.00')
+        expect(jaJP.l(currency, { style: 'currency', currency: 'EUR' })).toBe(
+          '€23,400.00'
+        )
 
-        expect(
-          ru.localise(currency, { style: 'currency', currency: 'JPY' })
-        ).toBe('23 400 ¥')
+        expect(ru.l(currency, { style: 'currency', currency: 'JPY' })).toBe(
+          '23 400 ¥'
+        )
 
-        expect(
-          ru.localise(currency, { style: 'currency', currency: 'USD' })
-        ).toBe('23 400,00 $')
+        expect(ru.l(currency, { style: 'currency', currency: 'USD' })).toBe(
+          '23 400,00 $'
+        )
 
-        expect(
-          ru.localise(currency, { style: 'currency', currency: 'EUR' })
-        ).toBe('23 400,00 €')
+        expect(ru.l(currency, { style: 'currency', currency: 'EUR' })).toBe(
+          '23 400,00 €'
+        )
       })
     })
 
@@ -350,14 +342,14 @@ describe('createTranslator', () => {
       var maythe4th = new Date(Date.UTC(2012, 4, 4, 0, 0, 0))
 
       it('should format dates', () => {
-        expect(enIN.localise(maythe4th)).toBe('4/5/2012')
-        expect(jaJP.localise(maythe4th)).toBe('2012/5/4')
-        expect(ru.localise(maythe4th)).toBe('04.05.2012')
+        expect(enIN.l(maythe4th)).toBe('4/5/2012')
+        expect(jaJP.l(maythe4th)).toBe('2012/5/4')
+        expect(ru.l(maythe4th)).toBe('04.05.2012')
       })
 
       it('should format long dates', () => {
         expect(
-          enIN.localise(maythe4th, {
+          enIN.l(maythe4th, {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -366,7 +358,7 @@ describe('createTranslator', () => {
         ).toBe('Friday 4 May 2012')
 
         expect(
-          jaJP.localise(maythe4th, {
+          jaJP.l(maythe4th, {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -375,7 +367,7 @@ describe('createTranslator', () => {
         ).toBe('2012年5月4日金曜日')
 
         expect(
-          ru.localise(maythe4th, {
+          ru.l(maythe4th, {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
