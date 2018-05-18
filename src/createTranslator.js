@@ -103,7 +103,7 @@ export default function createTranslator(
     const keyParts = key.split('.')
 
     return keyParts.reduce((submatch, part) => {
-      return submatch[part]
+      return submatch && submatch[part]
     }, resources)
   }
 

@@ -1,6 +1,6 @@
 require('./intl')
 
-import createTranslator from './createTranslator'
+import { createTranslator } from '../'
 
 import enGlossary from '../fixtures/en/glossary'
 import enMessages from '../fixtures/en/messages'
@@ -53,6 +53,10 @@ describe('createTranslator', () => {
 
   describe('translate()', () => {
     it('should return the key itself if translation is missing', () => {
+      // full key not found.
+      expect(enIN.t('something.notfound')).toEqual('something.notfound')
+
+      // subkey not found.
       expect(enIN.t('messages.notfound')).toEqual('messages.notfound')
       expect(jaJP.t('messages.notfound')).toEqual('messages.notfound')
     })
