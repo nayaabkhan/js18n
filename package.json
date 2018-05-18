@@ -1,17 +1,34 @@
 {
   "name": "js18n",
   "version": "0.1.0",
-  "main": "index.js",
-  "author": "Nayaabkhan Khan <khannayaab@gmail.com>",
+  "description": "I18n library for JavaScript applications",
   "license": "MIT",
+  "repository": "github:nayaabkhan/js18n",
+  "bugs": "https://github.com/nayaabkhan/js18n/issues",
+  "keywords": [
+    "i18n",
+    "l10n",
+    "javascript",
+    "node",
+    "browser"
+  ],
+  "author": "Nayaabkhan Khan <khannayaab@gmail.com>",
+  "main": "lib/js18n.js",
+  "module": "es/js18n.js",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "src"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.0.0",
     "jest": "^22.4.3"
   },
-  "scripts": {
-    "test": "jest"
-  },
-  "dependencies": {}
+  "sideEffects": false
 }
