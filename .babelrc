@@ -12,7 +12,7 @@
     ]
   ],
   "env": {
-    "commonjs": {
+    "test": {
       "presets": [
         [
           "env",
