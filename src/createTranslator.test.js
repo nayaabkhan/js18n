@@ -359,7 +359,7 @@ describe('createTranslator', () => {
             month: 'long',
             day: 'numeric',
           })
-        ).toBe('Friday 4 May 2012')
+        ).toBe('Friday, 4 May, 2012')
 
         expect(
           jaJP.l(maythe4th, {
