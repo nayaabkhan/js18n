@@ -119,6 +119,11 @@ function pluralTypeIndex(locale, count) {
  * @returns {string} The pluralised phrase.
  */
 export default function pluralise(phrase, key, params, locale) {
+  // Can only pluralise objects.
+  if (typeof phrase !== 'object') {
+    return phrase
+  }
+
   if (!params.hasOwnProperty('count')) {
     return phrase
   }

@@ -86,7 +86,7 @@ export default function createTranslator(
     } else if (typeof params.default === 'string') {
       return interpolate(params.default, params)
     } else {
-      console.warn(`Missing translation for key: "${key}"`)
+      console.warn(`Missing translation for key: "${key}", locale: "${locale}"`)
       return key
     }
   }

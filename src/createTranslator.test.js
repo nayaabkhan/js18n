@@ -178,6 +178,10 @@ describe('createTranslator', () => {
 
     describe('pluralisation', () => {
       it('should pluralise', () => {
+        expect(enIN.t('messages.notfound')).toBe('messages.notfound')
+        expect(enIN.t('messages.notfound', { count: 0 })).toBe(
+          'messages.notfound'
+        )
         expect(enIN.t('messages.unread', { count: 0 })).toBe('All caught up!')
         expect(enIN.t('messages.unread', { count: 1 })).toBe(
           'You have an unread message'
