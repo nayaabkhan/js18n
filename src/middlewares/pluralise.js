@@ -128,13 +128,14 @@ export default function pluralise(phrase, key, params, locale) {
     return phrase
   }
 
-  const result = phrase[pluralOptions[pluralTypeIndex(locale, params.count)]]
+  const pluralIndex = pluralOptions[pluralTypeIndex(locale, params.count)]
+  const result = phrase[pluralIndex]
 
   if (!result) {
     console.warn(
-      `Cannot find correct pluralization option for "${key}" for count "${
+      `Cannot find correct pluralization option "${pluralIndex}" for "${key}" for count "${
         params.count
-      }". Falling back to "other" if present.`
+      }" in locale "${locale}". Falling back to "other" if present.`
     )
 
     if (phrase.hasOwnProperty('other')) {
