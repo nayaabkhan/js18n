@@ -57,6 +57,24 @@ const pluralTypes = {
           ? 3
           : 5
   },
+  croatian: function(n) {
+    if (n % 10 === 1 && n % 100 !== 11) {
+      return 1
+    }
+    if ([2, 3, 4].indexOf(n % 10) >= 0 && [12, 13, 14].indexOf(n % 100) < 0) {
+      return 3
+    }
+    return 5
+  },
+  lithuanian: function(n) {
+    if (n % 10 === 1 && n % 100 !== 11) {
+      return 1
+    }
+    if (n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) {
+      return 3
+    }
+    return 5 
+  },
 }
 
 // Mapping from pluralization group to individual locales.
@@ -80,9 +98,11 @@ const pluralTypeToLanguages = {
     'sv',
   ],
   french: ['fr', 'tl', 'tr', 'pt-br'],
-  russian: ['hr', 'ru', 'lt'],
+  russian: ['ru'],
   czech: ['cs', 'sk'],
   polish: ['pl'],
+  croatian: ['hr', 'sr'],
+  lithuanian: ['lt'],
   icelandic: ['is'],
   slovenian: ['sl'],
 }
