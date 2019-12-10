@@ -1,6 +1,7 @@
 require('./intl')
 
 import { createTranslator } from '../'
+import pluralise from './middlewares/pluralise'
 
 import enGlossary from '../fixtures/en/glossary'
 import enMessages from '../fixtures/en/messages'
@@ -177,6 +178,42 @@ describe('createTranslator', () => {
     })
 
     describe('pluralisation', () => {
+      it('should return correct plural option', () => {
+        const phrase = {
+          zero: 'zero',
+          one: 'one',
+          two: 'two',
+          few: 'few',
+          many: 'many',
+          other: 'other',
+        }
+        expect(pluralise(phrase, 'key', { count: 1 }, 'ru')).toBe('one')
+        expect(pluralise(phrase, 'key', { count: 21 }, 'ru')).toBe('one')
+        expect(pluralise(phrase, 'key', { count: 2 }, 'ru')).toBe('few')
+        expect(pluralise(phrase, 'key', { count: 22 }, 'ru')).toBe('few')
+        expect(pluralise(phrase, 'key', { count: 5 }, 'ru')).toBe('many')
+        expect(pluralise(phrase, 'key', { count: 11 }, 'ru')).toBe('many')
+        expect(pluralise(phrase, 'key', { count: 15 }, 'ru')).toBe('many')
+
+        expect(pluralise(phrase, 'key', { count: 1 }, 'hr')).toBe('one')
+        expect(pluralise(phrase, 'key', { count: 21 }, 'hr')).toBe('one')
+        expect(pluralise(phrase, 'key', { count: 2 }, 'hr')).toBe('few')
+        expect(pluralise(phrase, 'key', { count: 22 }, 'hr')).toBe('few')
+        expect(pluralise(phrase, 'key', { count: 5 }, 'hr')).toBe('other')
+        expect(pluralise(phrase, 'key', { count: 11 }, 'hr')).toBe('other')
+        expect(pluralise(phrase, 'key', { count: 15 }, 'hr')).toBe('other')
+
+        expect(pluralise(phrase, 'key', { count: 1 }, 'lt')).toBe('one')
+        expect(pluralise(phrase, 'key', { count: 21 }, 'lt')).toBe('one')
+        expect(pluralise(phrase, 'key', { count: 2 }, 'lt')).toBe('few')
+        expect(pluralise(phrase, 'key', { count: 9 }, 'lt')).toBe('few')
+        expect(pluralise(phrase, 'key', { count: 22 }, 'lt')).toBe('few')
+        expect(pluralise(phrase, 'key', { count: 29 }, 'lt')).toBe('few')
+        expect(pluralise(phrase, 'key', { count: 11 }, 'lt')).toBe('other')
+        expect(pluralise(phrase, 'key', { count: 12 }, 'lt')).toBe('other')
+        expect(pluralise(phrase, 'key', { count: 19 }, 'lt')).toBe('other')
+      })
+
       it('should pluralise', () => {
         expect(enIN.t('messages.notfound')).toBe('messages.notfound')
         expect(enIN.t('messages.notfound', { count: 0 })).toBe(
