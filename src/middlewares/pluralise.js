@@ -20,7 +20,7 @@ const pluralTypes = {
     return n < 2 ? n : 5
   },
   french: function(n) {
-    return n > 1 ? 5 : 1
+    return n < 2 ? n : 5
   },
   russian: function(n) {
     return n % 10 == 1 && n % 100 != 11
