@@ -26,7 +26,7 @@
     "format": "prettier 'src/**/*.js' --write",
     "format:check": "prettier --list-different 'src/**/*.js'",
     "pretest": "npm run build:commonjs",
-    "test": "jest",
+    "test": "jest --ci --coverage",
     "build:commonjs": "cross-env NODE_ENV=cjs rollup -c",
     "build:es": "cross-env BABEL_ENV=es NODE_ENV=es rollup -c",
     "build:umd": "cross-env BABEL_ENV=es NODE_ENV=development rollup -c",
