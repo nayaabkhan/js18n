@@ -2,7 +2,7 @@ const replace = String.prototype.replace
 
 const dollarRegex = /\$/g
 const dollarBillsYall = '$$'
-const tokenRegex = /(?:\{\{|%\{)(.*?)(?:\}\}?)/gm
+const tokenRegex = /(?:\{\{?|%\{)(.*?)(?:\}\}?)/gm
 
 /**
  *

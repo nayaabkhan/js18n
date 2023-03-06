@@ -2,7 +2,7 @@
   "hello": "Hello",
   "welcome": "Welcome {{user}}!",
   "taken": "Failed to save as {{username}}. {{username}} is already taken.",
-  "achievement": "{{user}} of team {{team}} drew first blood!",
+  "achievement": "{user} of team {team} drew first blood!",
 
   "title": {
     "male": "{{user}} is an expert masseur",
